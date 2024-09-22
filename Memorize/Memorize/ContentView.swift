@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "❄️", "🧙‍♂️", "🙀", "👹", "😱", "☠️", "🍭"]
+    private static let themes: [Theme] = [.animals, .food, .nature]
     
-    @State var cardCount: Int = 4
+    @State private var currentTheme: Theme = .animals
+    @State private var emojis: [String] = Theme.animals.shuffled
     
     var body: some View {
         VStack {
@@ -19,18 +20,40 @@ struct ContentView: View {
                 cards
             }
             Spacer()
+            themePicker
         }
         .padding()
     }
     
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
-            ForEach(0..<cardCount, id: \.self) { index in
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 45))]) {
+            ForEach(0..<emojis.count, id: \.self) { index in
                 CardView(content: emojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
-        .foregroundStyle(.orange)
+        .foregroundStyle(currentTheme.foregroundColor)
+    }
+    
+    var themePicker: some View {
+        HStack {
+            ForEach(Self.themes.indices, id: \.self) { index in
+                let theme = Self.themes[index]
+                Button {
+                    currentTheme = theme
+                    emojis = theme.shuffled
+                } label: {
+                    VStack {
+                        theme.icon
+                            .imageScale(.large)
+                            .font(.title2)
+                        Text(theme.name)
+                            .font(.caption)
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
     }
 }
 
