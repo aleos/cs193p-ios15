@@ -15,7 +15,7 @@ struct Theme {
     let foregroundColor: Color
     
     var shuffled: [String] {
-        emojis[..<(numberOfPairsOfCards ?? emojis.count)].flatMap({ Array(repeating: $0, count: 2) }).shuffled()
+        emojis.shuffled()[..<(numberOfPairsOfCards ?? emojis.count)].flatMap({ Array(repeating: $0, count: 2) }).shuffled()
     }
 }
 
@@ -60,7 +60,7 @@ extension Theme {
         name: "Food",
         icon: Image(systemName: "carrot.fill"),
         emojis: ["🍏", "🍆", "🍒", "🍇", "🍓", "🫐", "🌽", "🥩", "🍕", "🍔", "🍗", "🍝", "🍣", "🍥", "🍨", "🍩", "🍪", "🍰", "🎂"],
-        numberOfPairsOfCards: nil,
+        numberOfPairsOfCards: 5,
         foregroundColor: .orange
     )
     
