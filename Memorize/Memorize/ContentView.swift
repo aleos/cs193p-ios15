@@ -36,7 +36,7 @@ struct ContentView: View {
     }
     
     var themePicker: some View {
-        HStack {
+        HStack(alignment: .lastTextBaseline) {
             ForEach(Self.themes.indices, id: \.self) { index in
                 let theme = Self.themes[index]
                 Button {
