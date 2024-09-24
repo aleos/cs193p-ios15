@@ -9,14 +9,9 @@ import SwiftUICore
 
 struct Theme {
     let name: String
-    let icon: Image
     let emojis: [String]
-    let numberOfPairsOfCards: Int?
-    let foregroundColor: Color
-    
-    var shuffled: [String] {
-        emojis.shuffled()[..<(numberOfPairsOfCards ?? emojis.count)].flatMap({ Array(repeating: $0, count: 2) }).shuffled()
-    }
+    let numberOfPairs: Int
+    let color: Color
 }
 
 extension Theme: Identifiable {
@@ -26,58 +21,51 @@ extension Theme: Identifiable {
 extension Theme {
     static let halloween = Theme(
         name: "Halloween",
-        icon: Image(systemName: "moon.stars.fill"),
-        emojis: ["👻", "🎃", "🕷️", "😈", "💀", "❄️", "🧙‍♂️", "🙀", "👹", "😱", "☠️", "🍭"],
-        numberOfPairsOfCards: 5,
-        foregroundColor: .purple
+        emojis: ["👻", "🎃", "🕷️", "😈", "💀", "❄️", "🧙‍♂️", "🙀", "👹", "😱", "☠️", "🍂", "⚰️", "🪦"],
+        numberOfPairs: 13,
+        color: .purple
     )
     
     static let animals = Theme(
         name: "Animals",
-        icon: Image(systemName: "dog.fill"),
         emojis: ["🐼", "🐔", "🦄", "🐶", "🐱", "🐭", "🐽", "🐍", "🐒"],
-        numberOfPairsOfCards: nil,
-        foregroundColor: .brown
+        numberOfPairs: 9,
+        color: .brown
     )
     
     static let sports = Theme(
         name: "Sports",
-        icon: Image(systemName: "figure.basketball"),
         emojis: ["🏀", "🏈", "⚾", "🎱", "🥊", "🥋", "🎮", "🥎", "🏐"],
-        numberOfPairsOfCards: nil,
-        foregroundColor: .red
+        numberOfPairs: 8,
+        color: .red
     )
     
     static let faces = Theme(
         name: "Faces",
-        icon: Image(systemName: "face.smiling.inverse"),
         emojis: ["😀", "😢", "😉", "😂", "😊", "🤪", "😍", "🥳", "🤩"],
-        numberOfPairsOfCards: 5,
-        foregroundColor: .yellow
+        numberOfPairs: 5,
+        color: .yellow
     )
     
     static let food = Theme(
         name: "Food",
-        icon: Image(systemName: "carrot.fill"),
         emojis: ["🍏", "🍆", "🍒", "🍇", "🍓", "🫐", "🌽", "🥩", "🍕", "🍔", "🍗", "🍝", "🍣", "🍥", "🍨", "🍩", "🍪", "🍰", "🎂"],
-        numberOfPairsOfCards: 5,
-        foregroundColor: .orange
+        numberOfPairs: 7,
+        color: .orange
     )
     
     static let nature = Theme(
         name: "Nature",
-        icon: Image(systemName: "tree.fill"),
         emojis: ["🌲", "🌿", "🍀", "🌱", "🌼", "🌸", "🌈", "☀️", "❄️", "🌊", "🌍"],
-        numberOfPairsOfCards: nil,
-        foregroundColor: .green
+        numberOfPairs: 10,
+        color: .green
     )
     
     static let transport = Theme(
         name: "Transport",
-        icon: Image(systemName: "car.fill"),
         emojis: ["🚗", "🚎", "🚓", "🚒", "🚑", "🚔", "🚖", "🚗", "🚛", "🚚", "🚝", "🚞", "🚟", "🚠", "🚡", "🚢", "🚣", "🚤"],
-        numberOfPairsOfCards: 10,
-        foregroundColor: .gray
+        numberOfPairs: 10,
+        color: .gray
     )
     
     static var random: Theme { themes.randomElement()! }
