@@ -17,6 +17,9 @@ struct EmojiMemoryGameView: View {
                     .padding()
                     .animation(.default, value: viewModel.cards)
             }
+            Button("New game") {
+                
+            }
         }
     }
     
