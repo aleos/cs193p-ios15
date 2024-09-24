@@ -8,27 +8,16 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
-    private static let themes: [Theme] = [.animals, .food, .nature]
-    
     @ObservedObject var viewModel: EmojiMemoryGame
-    
-    @State private var currentTheme: Theme = .animals
-    @State private var emojis: [String] = Theme.animals.shuffled
-    
+        
     var body: some View {
         VStack {
-            Text("Memorize!").font(.largeTitle)
             ScrollView {
                 cards
+                    .padding()
                     .animation(.default, value: viewModel.cards)
             }
-            Spacer()
-            Button("Shuffle") {
-                viewModel.shuffle()
-            }
-//            themePicker
         }
-        .padding()
     }
     
     var cards: some View {
@@ -42,28 +31,7 @@ struct EmojiMemoryGameView: View {
                     }
             }
         }
-        .foregroundStyle(currentTheme.foregroundColor)
-    }
-    
-    var themePicker: some View {
-        HStack(alignment: .lastTextBaseline) {
-            ForEach(Self.themes.indices, id: \.self) { index in
-                let theme = Self.themes[index]
-                Button {
-                    currentTheme = theme
-                    emojis = theme.shuffled
-                } label: {
-                    VStack {
-                        theme.icon
-                            .imageScale(.large)
-                            .font(.title2)
-                        Text(theme.name)
-                            .font(.caption)
-                    }
-                }
-                .padding(.horizontal)
-            }
-        }
+        .foregroundStyle(.orange)
     }
 }
 
