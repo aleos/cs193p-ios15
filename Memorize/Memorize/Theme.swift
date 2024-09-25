@@ -11,7 +11,7 @@ struct Theme {
     let name: String
     let emojis: [String]
     let numberOfPairs: Int?
-    let color: Color
+    let color: any ShapeStyle
 }
 
 extension Theme: Identifiable {
@@ -23,14 +23,14 @@ extension Theme {
         name: "Halloween",
         emojis: ["👻", "🎃", "🕷️", "😈", "💀", "❄️", "🧙‍♂️", "🙀", "👹", "😱", "☠️", "🍂", "⚰️", "🪦"],
         numberOfPairs: nil,
-        color: .purple
+        color: LinearGradient(gradient: Gradient(colors: [.red, .orange, .yellow, .green, .blue, .purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
     )
     
     static let animals = Theme(
         name: "Animals",
         emojis: ["🐼", "🐔", "🦄", "🐶", "🐱", "🐭", "🐽", "🐍", "🐒"],
         numberOfPairs: 9,
-        color: .brown
+        color: AngularGradient(gradient: Gradient(colors: [.red, .orange, .yellow, .green, .blue, .purple]), center: .center, angle: .degrees(120))
     )
     
     static let sports = Theme(
