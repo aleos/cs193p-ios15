@@ -11,13 +11,18 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
         
     var body: some View {
-        VStack {
-            ScrollView {
-                cards
-                    .padding()
-                    .animation(.default, value: viewModel.cards)
+        NavigationStack {
+            VStack {
+                ScrollView {
+                    cards
+                        .padding()
+                        .animation(.default, value: viewModel.cards)
+                }
+                .toolbar {
+                    Button("New game", action: viewModel.newGame)
+                }
             }
-            Button("New game", action: viewModel.newGame)
+            .navigationTitle(viewModel.themeName)
         }
     }
     

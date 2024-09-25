@@ -27,6 +27,7 @@ class EmojiMemoryGame: ObservableObject {
         model = Self.createMemoryGame(theme: theme)
     }
     
+    var themeName: String { theme.name }
     var cards: Array<MemoryGame<String>.Card> { model.cards }
     var cardsColor: Color { theme.color }
     
