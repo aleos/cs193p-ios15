@@ -10,7 +10,7 @@ import SwiftUICore
 struct Theme {
     let name: String
     let emojis: [String]
-    let numberOfPairs: Int
+    let numberOfPairs: Int?
     let color: Color
 }
 
@@ -22,7 +22,7 @@ extension Theme {
     static let halloween = Theme(
         name: "Halloween",
         emojis: ["👻", "🎃", "🕷️", "😈", "💀", "❄️", "🧙‍♂️", "🙀", "👹", "😱", "☠️", "🍂", "⚰️", "🪦"],
-        numberOfPairs: 13,
+        numberOfPairs: nil,
         color: .purple
     )
     
@@ -50,7 +50,7 @@ extension Theme {
     static let food = Theme(
         name: "Food",
         emojis: ["🍏", "🍆", "🍒", "🍇", "🍓", "🫐", "🌽", "🥩", "🍕", "🍔", "🍗", "🍝", "🍣", "🍥", "🍨", "🍩", "🍪", "🍰", "🎂"],
-        numberOfPairs: 7,
+        numberOfPairs: nil,
         color: .orange
     )
     
