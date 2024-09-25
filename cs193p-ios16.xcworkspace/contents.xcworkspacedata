@@ -4,4 +4,7 @@
    <FileRef
       location = "group:Memorize/Memorize.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Set/Set.xcodeproj">
+   </FileRef>
 </Workspace>
