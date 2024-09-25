@@ -9,6 +9,7 @@ import Foundation
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
     private(set) var cards: [Card]
+    private var lastFaceUpAt: Date = .distantPast
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
         cards = []
@@ -34,19 +35,20 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                     if cards[chosenIndex].content == cards[potentialMatchIndex].content { // Match
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatchIndex].isMatched = true
-                        score += 2
+                        score += max(100, 200 - 20 * Int(Date().timeIntervalSince(lastFaceUpAt)))
                     } else {
                         if cards[chosenIndex].isSeen {
-                            score -= 1
+                            score -= 100
                         }
                         if cards[potentialMatchIndex].isSeen {
-                            score -= 1
+                            score -= 100
                         }
                     }
                     cards[chosenIndex].isSeen = true
                     cards[potentialMatchIndex].isSeen = true
                 } else {
                     indexOfOneAndOnlyFaceUpCard = chosenIndex
+                    lastFaceUpAt = .now
                 }
                 cards[chosenIndex].isFaceUp = true
             }
