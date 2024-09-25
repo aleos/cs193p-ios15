@@ -19,7 +19,12 @@ struct EmojiMemoryGameView: View {
                         .animation(.default, value: viewModel.cards)
                 }
                 .toolbar {
-                    Button("New game", action: viewModel.newGame)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("New game", action: viewModel.newGame)
+                    }
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text("Score: **\(viewModel.score)**")
+                    }
                 }
             }
             .navigationTitle(viewModel.themeName)

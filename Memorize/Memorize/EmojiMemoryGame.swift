@@ -30,6 +30,7 @@ class EmojiMemoryGame: ObservableObject {
     var themeName: String { theme.name }
     var cards: Array<MemoryGame<String>.Card> { model.cards }
     var cardsColor: Color { theme.color }
+    var score: Int { model.score }
     
     // MARK: - Intents
     
