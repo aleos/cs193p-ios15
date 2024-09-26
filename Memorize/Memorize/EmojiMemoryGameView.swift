@@ -42,7 +42,7 @@ struct EmojiMemoryGameView: View {
                     viewModel.choose(card)
                 }
         }
-        .foregroundStyle(viewModel.cardsColor)
+        .applyForegroundStyle(viewModel.cardsColor)
     }
     
     func gridItemWidthThatFits(
