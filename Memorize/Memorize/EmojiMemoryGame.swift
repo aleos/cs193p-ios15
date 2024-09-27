@@ -29,7 +29,7 @@ class EmojiMemoryGame: ObservableObject {
     
     var themeName: String { theme.name }
     var cards: Array<Card> { model.cards }
-    var cardsColor: ThemeColorStyle { theme.colorStyle }
+    var colorStyle: ThemeColorStyle { theme.colorStyle }
     var score: Int { model.score }
     
     // MARK: - Intents

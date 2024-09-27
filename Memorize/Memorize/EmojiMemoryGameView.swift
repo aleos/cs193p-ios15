@@ -8,62 +8,121 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
+    typealias Card = MemoryGame<String>.Card
     @ObservedObject var viewModel: EmojiMemoryGame
     
     private let aspectRatio: CGFloat = 2/3
     private let spacing: CGFloat = 4
-        
+    private let dealAnimation: Animation = .easeInOut(duration: 1)
+    private let dealInterval: TimeInterval = 0.15
+    private let deckWidth: CGFloat = 50
+    
     var body: some View {
         NavigationStack {
             VStack {
                 cards
-                    .applyForegroundStyle(viewModel.cardsColor)
-                    .animation(.default, value: viewModel.cards)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("New game", action: viewModel.newGame)
-                        }
-                        ToolbarItem(placement: .topBarLeading) {
-                            Text("Score: **\(viewModel.score)**")
-                        }
-                    }
-                Button("Shuffle") {
-                    viewModel.shuffle()
+                    .applyForegroundStyle(viewModel.colorStyle)
+                HStack {
+                    score
+                    Spacer()
+                    deck
+                        .applyForegroundStyle(viewModel.colorStyle)
+                    Spacer()
+                    shuffle
                 }
+                .font(.largeTitle)
             }
             .padding()
+            .toolbar(content: newGame)
             .navigationTitle(viewModel.themeName)
         }
     }
     
-    var cards: some View {
-        AspectVGrid(viewModel.cards, aspectRatio: aspectRatio) { card in
-            CardView(card)
-                .padding(spacing)
-                .onTapGesture {
-                    viewModel.choose(card)
-                }
+    private var score: some View {
+        Text("Score: **\(viewModel.score)**")
+            .animation(nil)
+    }
+    
+    private var shuffle: some View {
+        Button("Shuffle") {
+            withAnimation {
+                viewModel.shuffle()
+            }
         }
     }
     
-    func gridItemWidthThatFits(
-        count: Int,
-        size: CGSize,
-        atAspectRatio aspectRatio: CGFloat
-    ) -> CGFloat {
-        let count = CGFloat(count)
-        var columnCount = 1.0
-        repeat {
-            let width = size.width / columnCount
-            let height = width / aspectRatio
-            
-            let rowCount = (count / columnCount).rounded(.up)
-            if rowCount * height < size.height {
-                return (size.width / columnCount).rounded(.down)
+    private var cards: some View {
+        AspectVGrid(viewModel.cards, aspectRatio: aspectRatio) { card in
+            if isDealt(card) {
+                CardView(card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+                    .padding(spacing)
+                    .overlay(FlyingNumber(number: scoreChange(causedBy: card)))
+                    .zIndex(scoreChange(causedBy: card) != 0 ? 100 : 0)
+                    .onTapGesture {
+                        choose(card)
+                    }
             }
-            columnCount += 1
-        } while columnCount < count
-        return min(size.width / count, size.height * aspectRatio).rounded(.down)
+        }
+    }
+    
+    @State private var dealt = Set<Card.ID>()
+    
+    private func isDealt(_ card: Card) -> Bool {
+        dealt.contains(card.id)
+    }
+    private var undealtCards: [Card] {
+        viewModel.cards.filter { !isDealt($0) }
+    }
+    
+    @Namespace private var dealingNamespace
+    
+    private var deck: some View {
+        ZStack {
+            ForEach(undealtCards) { card in
+                CardView(card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+            }
+        }
+        .frame(width: deckWidth, height: deckWidth / aspectRatio)
+        .onTapGesture {
+            deal()
+        }
+    }
+    
+    private func deal() {
+        var delay: TimeInterval = 0
+        for card in viewModel.cards {
+            withAnimation(dealAnimation.delay(delay)) {
+                _ = dealt.insert(card.id)
+            }
+            delay += dealInterval
+        }
+        
+    }
+    
+    private func choose(_ card: Card) {
+        withAnimation {
+            let scoreBeforeChoosing = viewModel.score
+            viewModel.choose(card)
+            let scoreChange = viewModel.score - scoreBeforeChoosing
+            lastScoreChange = (scoreChange, causedByCardID: card.id)
+        }
+    }
+    
+    @State private var lastScoreChange = (0, causedByCardID: "")
+    
+    private func newGame() -> some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button("New game", action: viewModel.newGame)
+        }
+    }
+    
+    private func scoreChange(causedBy card: Card) -> Int {
+        let (amount, id) = lastScoreChange
+        return card.id == id ? amount : 0
     }
 }
 
