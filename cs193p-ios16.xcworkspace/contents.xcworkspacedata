@@ -7,4 +7,7 @@
    <FileRef
       location = "group:Set/Set.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Emoji Art/Emoji Art.xcodeproj">
+   </FileRef>
 </Workspace>
